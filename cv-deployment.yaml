@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mon-cv-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: mon-cv
+  template:
+    metadata:
+      labels:
+        app: mon-cv
+    spec:
+      containers:
+      - name: mon-cv
+        image: votre-nom-utilisateur-dockerhub/mon-cv:latest
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mon-cv-service
+spec:
+  selector:
+    app: mon-cv
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: LoadBalancer
